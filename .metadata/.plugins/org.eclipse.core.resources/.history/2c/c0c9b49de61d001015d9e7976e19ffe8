@@ -1,0 +1,54 @@
+package com.crud.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.crud.model.User;
+import com.crud.service.User_Service;
+
+@RestController
+@CrossOrigin("http://localhost:5173")
+public class User_Controller {
+	
+	@Autowired
+	User_Service user_Service;
+
+	@PostMapping("/Add")
+	public void InsertUser(@RequestBody User user) {
+		user_Service.InsertUser(user);
+	}
+	
+	@GetMapping("/All")
+	public List<User> GetAll(){
+		return user_Service.GetAll();
+	}
+	
+	@GetMapping("/ShowUser/{id}")
+	public Optional<User> GetUserById(@PathVariable Long id) {
+		return user_Service.GetUserById(id);
+	}
+	
+	@PutMapping("/ShowUser/{id}")
+	public void UpdateUser(@RequestBody User newUser, @PathVariable Long id) {
+		
+		Optional<User> FoundUser = user_Service.GetUserById(id);
+		if(FoundUser != null) {
+			User UpdateUser = new User();
+			UpdateUser.setId(id);
+			UpdateUser.setUsername(newUser.getUsername());
+			UpdateUser.setName(newUser.getName());
+			UpdateUser.setEmail(newUser.getEmail());
+			
+			user_Service.UpdateUser(UpdateUser);
+		}
+	}
+}

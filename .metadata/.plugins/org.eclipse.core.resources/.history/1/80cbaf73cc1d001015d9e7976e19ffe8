@@ -1,0 +1,18 @@
+package com.crud.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import com.crud.model.User;
+import com.crud.service.User_Service;
+
+@Controller
+public class User_Controller {
+	
+	@Autowired
+	User_Service user_Service;
+
+	public void InsertUser(User user) {
+		user_Service.InsertUser(user);
+	}
+}
